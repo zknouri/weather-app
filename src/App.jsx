@@ -1,5 +1,8 @@
-import CurrentWeather from "./components/CurrentWeather";
-import SearchBar from "./components/SearchBar";
+import CurrentWeather from "./components/CurrentWeather.jsx";
+import ForecastSection from "./components/ForecastSection.jsx";
+import SearchBar from "./components/SearchBar.jsx";
+import WeatherStatsGrid from "./components/WeatherStatsGrid.jsx";
+
 
 function App() {
   return (
@@ -7,6 +10,8 @@ function App() {
       <h1>Weather App</h1>
       <SearchBar />
       <CurrentWeather />
+      <WeatherStatsGrid />
+      <ForecastSection />
     </>
   );
 }
