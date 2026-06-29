@@ -2,7 +2,7 @@ import clearDay from "@meteocons/svg/fill/clear-day.svg";
 import redArrow from "../assets/svg/red-arrow-up.svg";
 import greenArrow from "../assets/svg/green-arrow-down.svg";
 
-export default function CurrentWeather() {
+export default function CurrentWeather({weatherData}) {
   return (
     <div className="flex flex-col items-center m-1 p-1 w-auto h-auto bg-sky-400 rounded-sm text-stone-50">
       <p className="text-3xl">Casablanca</p>
