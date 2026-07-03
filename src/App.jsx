@@ -5,63 +5,86 @@ import ForecastSection from "./components/ForecastSection.jsx";
 import WeatherStatsGrid from "./components/WeatherStatsGrid.jsx";
 import Header from "./components/Header.jsx";
 
-const WEATHER_REALTIME_DATA = {
-  data: {
-    time: "2026-06-29T18:03:00Z",
-    values: {
-      altimeterSetting: 1016.83,
-      cloudBase: null,
-      cloudCeiling: null,
-      cloudCover: 0,
-      dewPoint: 20.9,
-      freezingRainIntensity: 0,
-      humidity: 81,
-      precipitationProbability: 0,
-      pressureSeaLevel: 1017.3,
-      pressureSurfaceLevel: 1012.23,
-      rainIntensity: 0,
-      sleetIntensity: 0,
-      snowIntensity: 0,
-      temperature: 24.34,
-      temperatureApparent: 24.3,
-      uvHealthConcern: 0,
-      uvIndex: 1,
-      visibility: 13.3,
-      weatherCode: 1000,
-      windDirection: 17,
-      windGust: 6.8,
-      windSpeed: 3.4,
+const TEMP_DATA = {
+  coord: {
+    lon: -7.62,
+    lat: 33.5945,
+  },
+  weather: [
+    {
+      id: 802,
+      main: "Clouds",
+      description: "scattered clouds",
+      icon: "03d",
     },
+  ],
+  base: "stations",
+  main: {
+    temp: 31.87,
+    feels_like: 32.64,
+    temp_min: 31.87,
+    temp_max: 31.87,
+    pressure: 1013,
+    humidity: 43,
+    sea_level: 1013,
+    grnd_level: 1005,
   },
-  location: {
-    lat: 33.594512939453125,
-    lon: -7.620028495788574,
-    name: "Casablanca ⵜⴰⴷⴷⴰⵔⵜ ⵜⵓⵎⵍⵉⵍⵜ الدار البيضاء, arrondissement de Sidi Belyout مقاطعة سيدي بليوط, Pachalik de Casablanca, Préfecture de Casablanca عمالة الدار البيضاء, Casablanca-Settat ⵜⵉⴳⵎⵉ ⵜⵓⵎⵍⵉⵍⵜ-ⵙⵟⵟⴰⵜ الدار البيضاء-سطات, Maroc ⵍⵎⵖⵔⵉⴱ المغرب",
-    type: "administrative",
+  visibility: 10000,
+  wind: {
+    speed: 1.79,
+    deg: 20,
   },
+  clouds: {
+    all: 33,
+  },
+  dt: 1783103027,
+  sys: {
+    type: 2,
+    id: 47681,
+    country: "MA",
+    sunrise: 1783056276,
+    sunset: 1783107866,
+  },
+  timezone: 3600,
+  id: 2553604,
+  name: "Casablanca",
+  cod: 200,
 };
 
 function App() {
   useEffect(() => {
     async function getRealtimeWeather() {
+      const geoRes = await fetch(
+        "/api/getCityGeolocation?city=Casablanca&limit=1",
+      );
+
+      const geoData = await geoRes.json();
+
+      console.log(geoData);
+
+      const latitude = geoData[0].lat;
+      const longitude = geoData[0].lon;
+
       const response = await fetch(
-        "/api/weather?location=Casablanca&units=metric",
+        `/api/weather?latitude=${latitude}&longitude=${longitude}&units=metric`,
       );
 
       const data = await response.json();
+
+      console.log(data);
     }
 
     // getRealtimeWeather();
   }, []);
 
-  const [realtimeWeather, setRealtimeWeather] = useState(WEATHER_REALTIME_DATA);
+  const [realtimeWeather, setRealtimeWeather] = useState(TEMP_DATA);
 
   return (
     <>
       <Header />
       <main>
-        <CurrentWeather weatherData={realtimeWeather}/>
-        <WeatherStatsGrid />
+        <CurrentWeather weatherData={realtimeWeather} />
+        <WeatherStatsGrid weatherData={realtimeWeather} />
         <ForecastSection />
       </main>
     </>

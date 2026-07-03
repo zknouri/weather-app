@@ -6,7 +6,7 @@ export default function CurrentWeather({weatherData}) {
   return (
     <div className="flex flex-col items-center m-1 p-1 w-auto h-auto bg-sky-400 rounded-sm text-stone-50">
       <p className="text-3xl">Casablanca</p>
-      <p className="text-6xl">32 °C</p>
+      <p className="text-6xl">{weatherData.data.values.temperature} °C</p>
       <p>
         <img src={clearDay} alt="Clear day" className="size-20" />
       </p>
