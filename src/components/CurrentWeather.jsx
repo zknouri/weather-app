@@ -1,14 +1,17 @@
-import clearDay from "@meteocons/svg/fill/clear-day.svg";
-import redArrow from "../assets/svg/red-arrow-up.svg";
-import greenArrow from "../assets/svg/green-arrow-down.svg";
+import redArrow from '../assets/svg/red-arrow-up.svg'
+import greenArrow from '../assets/svg/green-arrow-down.svg'
+import { WEATHER_CONDITIONS } from "../lib/constatnts";
+import WeatherIcon from './WeatherIcon';
 
 export default function CurrentWeather({weatherData}) {
+  const currentWeatherIconName = WEATHER_CONDITIONS[weatherData.weather[0].description]
+
   return (
     <div className="flex flex-col items-center m-1 p-1 w-auto h-auto bg-sky-400 rounded-sm text-stone-50">
-      <p className="text-3xl">Casablanca</p>
-      <p className="text-6xl">{weatherData.data.values.temperature} °C</p>
+      <p className="text-3xl">{weatherData.name}</p>
+      <p className="text-5xl">{weatherData.main.temp} °C</p>
       <p>
-        <img src={clearDay} alt="Clear day" className="size-20" />
+        <WeatherIcon slug={currentWeatherIconName}/>
       </p>
 
       <div className="flex gap-10 m-2">

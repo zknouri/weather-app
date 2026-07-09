@@ -6,61 +6,60 @@ import WeatherStatsGrid from "./components/WeatherStatsGrid.jsx";
 import Header from "./components/Header.jsx";
 
 const TEMP_DATA = {
-  coord: {
-    lon: -7.62,
-    lat: 33.5945,
-  },
-  weather: [
-    {
-      id: 802,
-      main: "Clouds",
-      description: "scattered clouds",
-      icon: "03d",
+    "coord": {
+        "lon": -17.448,
+        "lat": 14.6935
     },
-  ],
-  base: "stations",
-  main: {
-    temp: 31.87,
-    feels_like: 32.64,
-    temp_min: 31.87,
-    temp_max: 31.87,
-    pressure: 1013,
-    humidity: 43,
-    sea_level: 1013,
-    grnd_level: 1005,
-  },
-  visibility: 10000,
-  wind: {
-    speed: 1.79,
-    deg: 20,
-  },
-  clouds: {
-    all: 33,
-  },
-  dt: 1783103027,
-  sys: {
-    type: 2,
-    id: 47681,
-    country: "MA",
-    sunrise: 1783056276,
-    sunset: 1783107866,
-  },
-  timezone: 3600,
-  id: 2553604,
-  name: "Casablanca",
-  cod: 200,
+    "weather": [
+        {
+            "id": 803,
+            "main": "Clouds",
+            "description": "broken clouds",
+            "icon": "04d"
+        }
+    ],
+    "base": "stations",
+    "main": {
+        "temp": 28.48,
+        "feels_like": 33.15,
+        "temp_min": 28.48,
+        "temp_max": 28.48,
+        "pressure": 1014,
+        "humidity": 79,
+        "sea_level": 1014,
+        "grnd_level": 1014
+    },
+    "visibility": 10000,
+    "wind": {
+        "speed": 5.97,
+        "deg": 282,
+        "gust": 6.5
+    },
+    "clouds": {
+        "all": 68
+    },
+    "dt": 1783614541,
+    "sys": {
+        "type": 2,
+        "id": 2103129,
+        "country": "SN",
+        "sunrise": 1783579577,
+        "sunset": 1783626198
+    },
+    "timezone": 0,
+    "id": 2253354,
+    "name": "Dakar",
+    "cod": 200
 };
 
 function App() {
   useEffect(() => {
     async function getRealtimeWeather() {
       const geoRes = await fetch(
-        "/api/getCityGeolocation?city=Casablanca&limit=1",
+        "/api/getCityGeolocation?city=Dakar&limit=1",
       );
 
       const geoData = await geoRes.json();
-
-      console.log(geoData);
 
       const latitude = geoData[0].lat;
       const longitude = geoData[0].lon;
