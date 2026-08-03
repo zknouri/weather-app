@@ -4,7 +4,7 @@ export default async function handler(req, res) {
   const API_BASE_URL = process.env.API_BASE_URL;
   const API_KEY_VALUE = process.env.API_KEY_VALUE;
 
-  const realtimeWeather = await fetch(
+  const currentWeather = await fetch(
     `${API_BASE_URL}data/2.5/weather?lat=${latitude}&lon=${longitude}&units=${units}&appid=${API_KEY_VALUE}`,
     {
       methode: "GET",
@@ -12,7 +12,7 @@ export default async function handler(req, res) {
     },
   );
 
-  const data = await realtimeWeather.json();
+  const weatherData = await currentWeather.json();
 
-  return res.status(200).json(data);
+  return res.status(200).json(weatherData);
 }

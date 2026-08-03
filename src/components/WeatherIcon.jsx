@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 
 
-export default function WeatherIcon({slug, style = 'fill'}){
+export default function WeatherIcon({slug, style = 'fill', className='size-28'}){
     const [src, setSrc] = useState("");
 
     useEffect(() =>{
@@ -17,5 +17,5 @@ export default function WeatherIcon({slug, style = 'fill'}){
         return 'No icon source found!';
     }
 
-    return <img src={src} alt={slug} className="size-28"/>
+    return <img src={src} alt={slug} className={className}/>
 }

@@ -1,30 +1,34 @@
-import redArrow from '../assets/svg/red-arrow-up.svg'
-import greenArrow from '../assets/svg/green-arrow-down.svg'
-import { WEATHER_CONDITIONS } from "../lib/constatnts";
-import WeatherIcon from './WeatherIcon';
+import { WEATHER_CONDITIONS } from "../lib/constants";
+import WeatherIcon from "./WeatherIcon";
 
-export default function CurrentWeather({weatherData}) {
-  const currentWeatherIconName = WEATHER_CONDITIONS[weatherData.weather[0].description]
+
+export default function CurrentWeather({ weatherData }) {
+  const weatherDescription = weatherData.weather[0].description;
+  const currentWeatherIconName = WEATHER_CONDITIONS[weatherDescription];
+  const dateTimeString = Temporal.Instant.fromEpochMilliseconds(
+    weatherData.dt * 1000,
+  ).toString();
+  const plainDateTime = Temporal.PlainDateTime.from(
+    dateTimeString.slice(0, dateTimeString.length - 1),
+  );
+  
 
   return (
-    <div className="flex flex-col items-center m-1 p-1 w-auto h-auto bg-sky-400 rounded-sm text-stone-50">
-      <p className="text-3xl">{weatherData.name}</p>
-      <p className="text-5xl">{weatherData.main.temp} °C</p>
+    <div className="flex flex-col items-center m-1 p-1 w-auto h-auto bg-sky-400/70 rounded-sm text-stone-50">
+      <p className="text-3xl">{weatherData.name}, {weatherData.sys.country}</p>
+      <p className="text-5xl">{Math.round(weatherData.main.temp)} °C</p>
       <p>
-        <WeatherIcon slug={currentWeatherIconName}/>
+        <WeatherIcon slug={currentWeatherIconName} />
       </p>
-
-      <div className="flex gap-10 m-2">
-        {" "}
-        <div className="flex flex-col items-center">
-          <img src={redArrow} alt="red arrow up" className="w-7" />
-          <p className="text-xl font-semibold mt-1">33 °C</p>
-        </div>{" "}
-        <div className="flex flex-col items-center">
-          <img src={greenArrow} alt="green arrow up" className="w-7" />
-          <p className="text-xl font-semibold mt-1">24 °C</p>
-        </div>
-      </div>
+      <p className="text-xl">
+        {weatherDescription.replace(/\b\w/g, (char) => char.toUpperCase())}
+      </p>
+      <p className="text-xl">
+        {plainDateTime.toLocaleString("en-US", {
+          dateStyle: "full",
+          timeStyle: "full",
+        })}
+      </p>
     </div>
   );
 }
