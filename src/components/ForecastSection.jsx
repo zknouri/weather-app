@@ -1,20 +1,21 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import ForecastCard from "./ForecastCard.jsx";
 import ForecastCardDetails from "./ForecastCardDetails.jsx";
-import { FORECAST_DATA, WEATHER_CONDITIONS } from "../lib/constants.js";
+import { WEATHER_CONDITIONS } from "../lib/constants.js";
 import previousButton from "../assets/svg/previous-button-green-icon.svg";
 import nextButton from "../assets/svg/next-button-green-icon.svg";
 
-export default function ForecastSection() {
-  const [forecastWeather, setForecastWeather] = useState(FORECAST_DATA.list);
+export default function ForecastSection({ forecastData, isPending }) {
   const [currentSlidePosition, setCurrentSlidePosition] = useState(0);
+  const [selectedForecast, setSelectedForecast] = useState();
+  const forecastCardDetailsRef = useRef();
 
   function slideNext() {
     if (currentSlidePosition >= 720) {
       setCurrentSlidePosition(0);
     } else {
-      setCurrentSlidePosition((prevPosition) => prevPosition + 40);
+      setCurrentSlidePosition((prevPosition) => prevPosition + 80);
     }
   }
 
@@ -22,8 +23,25 @@ export default function ForecastSection() {
     if (currentSlidePosition <= 0) {
       setCurrentSlidePosition(720);
     } else {
-      setCurrentSlidePosition((prevPosition) => prevPosition - 40);
+      setCurrentSlidePosition((prevPosition) => prevPosition - 80);
     }
+  }
+
+  if (isPending) {
+    return (
+      <div className="relative m-1 p-1 w-auto h-auto bg-sky-400/70 rounded-sm text-stone-50 overflow-clip">
+        <div
+          className={`flex transition ease-in-out duration-800`}
+          style={{ transform: "translateX(-" + currentSlidePosition + "%)" }}
+        >
+          <ForecastCard isPending={isPending} />
+          <ForecastCard isPending={isPending} />
+          <ForecastCard isPending={isPending} />
+          <ForecastCard isPending={isPending} />
+          <ForecastCard isPending={isPending} />
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -36,27 +54,17 @@ export default function ForecastSection() {
           <img src={previousButton} alt="previous button" className="size-7" />
         </button>
         <div
-          className={`flex transition ease-in-out duration-300`}
+          className={`flex transition ease-in-out duration-800`}
           style={{ transform: "translateX(-" + currentSlidePosition + "%)" }}
         >
-          {forecastWeather.map((forecast) => {
-            const dateTimeString = Temporal.Instant.fromEpochMilliseconds(
-              forecast.dt * 1000,
-            ).toString();
-            const plainDateTime = Temporal.PlainDateTime.from(
-              dateTimeString.slice(0, dateTimeString.length - 1),
-            );
+          {forecastData.list.map((forecast) => {
             return (
               <ForecastCard
+                selectedForecast={selectedForecast}
+                setSelectedForecast={setSelectedForecast}
+                forecastDetailsRef={forecastCardDetailsRef}
                 key={forecast.dt}
-                day={plainDateTime.toLocaleString("en-US", {
-                  weekday: "long",
-                })}
-                time={plainDateTime.toLocaleString("en-US", {
-                  timeStyle: "short",
-                })}
-                slug={WEATHER_CONDITIONS[forecast.weather[0].description]}
-                temperature={`${Math.round(forecast.main.temp)} °C`}
+                forecastData={forecast}
               />
             );
           })}
@@ -68,7 +76,11 @@ export default function ForecastSection() {
           <img src={nextButton} alt="previous button" className="size-7" />
         </button>
       </div>
-      <ForecastCardDetails forecastWeather={forecastWeather} />
+
+      <ForecastCardDetails
+        forecastDetails={selectedForecast}
+        forecastDetailsRef={forecastCardDetailsRef}
+      />
     </>
   );
 }

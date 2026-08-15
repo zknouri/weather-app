@@ -7,94 +7,242 @@ import Header from "./components/Header.jsx";
 import { FORECAST_DATA } from "./lib/constants.js";
 
 const TEMP_DATA = {
-    "coord": {
-        "lon": -7.6184,
-        "lat": 33.5922
+  coord: {
+    lon: -7.6184,
+    lat: 33.5922,
+  },
+  weather: [
+    {
+      id: 801,
+      main: "Clouds",
+      description: "few clouds",
+      icon: "02d",
     },
-    "weather": [
-        {
-            "id": 802,
-            "main": "Clouds",
-            "description": "scattered clouds",
-            "icon": "03n"
-        }
-    ],
-    "base": "stations",
-    "main": {
-        "temp": 24.08,
-        "feels_like": 24.35,
-        "temp_min": 24.08,
-        "temp_max": 24.08,
-        "pressure": 1014,
-        "humidity": 69,
-        "sea_level": 1014,
-        "grnd_level": 1006
-    },
-    "visibility": 10000,
-    "wind": {
-        "speed": 1.34,
-        "deg": 110
-    },
-    "clouds": {
-        "all": 44
-    },
-    "dt": 1785718295,
-    "sys": {
-        "type": 2,
-        "id": 47681,
-        "country": "MA",
-        "sunrise": 1785735836,
-        "sunset": 1785785359
-    },
-    "timezone": 3600,
-    "id": 2553604,
-    "name": "Casablanca",
-    "cod": 200
+  ],
+  base: "stations",
+  main: {
+    temp: 25.75,
+    feels_like: 26.31,
+    temp_min: 25.75,
+    temp_max: 25.75,
+    pressure: 1014,
+    humidity: 74,
+    sea_level: 1014,
+    grnd_level: 1007,
+  },
+  visibility: 10000,
+  wind: {
+    speed: 2.68,
+    deg: 40,
+  },
+  clouds: {
+    all: 13,
+  },
+  dt: 1786126459,
+  sys: {
+    type: 2,
+    id: 47681,
+    country: "MA",
+    sunrise: 1786081610,
+    sunset: 1786130744,
+  },
+  timezone: 3600,
+  id: 2553604,
+  name: "Casablanca",
+  cod: 200,
 };
+
+const GEOLO = [
+  {
+    name: "Casablanca",
+    local_names: {
+      hu: "Casablanca",
+      hy: "Կասաբլանկա",
+      eu: "Casablanca",
+      mk: "Казабланка",
+      en: "Casablanca",
+      he: "קזבלנקה",
+      ka: "კასაბლანკა",
+      ko: "카사블랑카",
+      ascii: "Casablanca",
+      sl: "Casablanca",
+      ml: "കാസബ്ലങ്ക",
+      kn: "ಕಾಸಾಬ್ಲಾಂಕಾ",
+      fr: "Casablanca",
+      be: "Касабланка",
+      ar: "الدار البيضاء",
+      de: "Casablanca",
+      nl: "Casablanca",
+      eo: "Kazablanko",
+      lv: "Kasablanka",
+      gl: "Casabranca",
+      bg: "Казабланка",
+      feature_name: "Casablanca",
+      sr: "Казабланка",
+      ja: "カサブランカ",
+      sk: "Casablanca",
+      ur: "دار البیضاء",
+      cs: "Casablanca",
+      hi: "कैसाब्लांका",
+      ro: "Casablanca",
+      pl: "Casablanca",
+      uk: "Касабланка",
+      fa: "دارالبیضا",
+      et: "Casablanca",
+      az: "Kasablanka",
+      ru: "Касабланка",
+      tr: "Kazablanka",
+      hr: "Casablanca",
+      ku: "Kazablanka",
+      es: "Casablanca",
+      pt: "Casablanca",
+      el: "Καζαμπλάνκα",
+      zh: "卡萨布兰卡",
+      oc: "Casablanca",
+    },
+    lat: 33.5945144,
+    lon: -7.6200284,
+    country: "MA",
+  },
+  {
+    name: "Casablanca",
+    lat: -33.3205864,
+    lon: -71.4100762,
+    country: "CL",
+    state: "Valparaiso Region",
+  },
+  {
+    name: "Casablanca",
+    lat: -32.3971639,
+    lon: -58.1565864,
+    country: "UY",
+    state: "Paysandú",
+  },
+  {
+    name: "Casablanca",
+    local_names: {
+      ca: "Casablanca",
+    },
+    lat: 41.334155,
+    lon: 2.0367593,
+    country: "ES",
+    state: "Catalonia",
+  },
+  {
+    name: "Casablanca",
+    lat: 23.146365099999997,
+    lon: -82.32740962642539,
+    country: "CU",
+    state: "Havana",
+  },
+];
 
 function App() {
   const [realtimeWeather, setRealtimeWeather] = useState(TEMP_DATA);
-  
+  const [forecastWeather, setForecastWeather] = useState(FORECAST_DATA);
+  const [searchLocation, setSearchLocation] = useState("Casablanca");
+  const [searchResults, setSearchResults] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [selectedGeolocation, setSelectedGeolocation] = useState({
+    name: "Casablanca",
+    local_names: {
+      hu: "Casablanca",
+      hy: "Կասաբլանկա",
+      eu: "Casablanca",
+      mk: "Казабланка",
+      en: "Casablanca",
+      he: "קזבלנקה",
+      ka: "კასაბლანკა",
+      ko: "카사블랑카",
+      ascii: "Casablanca",
+      sl: "Casablanca",
+      ml: "കാസബ്ലങ്ക",
+      kn: "ಕಾಸಾಬ್ಲಾಂಕಾ",
+      fr: "Casablanca",
+      be: "Касабланка",
+      ar: "الدار البيضاء",
+      de: "Casablanca",
+      nl: "Casablanca",
+      eo: "Kazablanko",
+      lv: "Kasablanka",
+      gl: "Casabranca",
+      bg: "Казабланка",
+      feature_name: "Casablanca",
+      sr: "Казабланка",
+      ja: "カサブランカ",
+      sk: "Casablanca",
+      ur: "دار البیضاء",
+      cs: "Casablanca",
+      hi: "कैसाब्लांका",
+      ro: "Casablanca",
+      pl: "Casablanca",
+      uk: "Касабланка",
+      fa: "دارالبیضا",
+      et: "Casablanca",
+      az: "Kasablanka",
+      ru: "Касабланка",
+      tr: "Kazablanka",
+      hr: "Casablanca",
+      ku: "Kazablanka",
+      es: "Casablanca",
+      pt: "Casablanca",
+      el: "Καζαμπλάνκα",
+      zh: "卡萨布兰卡",
+      oc: "Casablanca",
+    },
+    lat: 33.5945144,
+    lon: -7.6200284,
+    country: "MA",
+  });
+
+  async function getGeolocation(locationName) {
+    const geolocationRes = await fetch(
+      `/api/geolocation?city=${locationName}&limit=5`,
+    );
+
+    const geolocationData = await geolocationRes.json();
+
+    setSearchResults(geolocationData);
+
+    console.log(geolocationData);
+  }
+
   useEffect(() => {
-    async function getAllWeatherData() {
-      const geolocationRes = await fetch(
-        "/api/geolocation?city=Casablanca&limit=5",
-      );
-
-      const geolocationData = await geolocationRes.json();
-
-      console.log(geolocationData[0]);
-
-      const latitude = geolocationData[0].lat;
-      const longitude = geolocationData[0].lon;
-
-      const weatherResponse = await fetch(
-        `/api/weather?latitude=${latitude}&longitude=${longitude}&units=metric`,
-      );
-
-      const weatherData = await weatherResponse.json();
-
-      console.log(weatherData);
+    async function getWeatherData() {
+        setIsLoading(true);
+        const latitude = selectedGeolocation.lat;
+        const longitude = selectedGeolocation.lon;
+        const weatherResponse = await fetch(
+          `/api/weather?latitude=${latitude}&longitude=${longitude}&units=metric`,
+        );
+        const weatherData = await weatherResponse.json();
+        setRealtimeWeather(weatherData);
+        console.log(weatherData);
 
       const forecastResponse = await fetch(
         `/api/forecast?latitude=${latitude}&longitude=${longitude}&cnt=1000&units=metric`,
       );
-
       const forecastData = await forecastResponse.json();
-
+      setForecastWeather(forecastData);
       console.log(forecastData);
+
+      setIsLoading(false)
     }
 
-    // getAllWeatherData();
-  }, []);
+    getWeatherData();
+  }, [selectedGeolocation]);
 
   return (
     <>
-      <Header />
+      <Header
+        onLocationSearch={getGeolocation}
+        geolocationResults={searchResults}
+        onLocationSelect={setSelectedGeolocation}
+      />
       <main>
-        <CurrentWeather weatherData={realtimeWeather} />
-        <WeatherStatsGrid weatherData={realtimeWeather} />
-        <ForecastSection/>
+        <CurrentWeather weatherData={realtimeWeather} isPending={isLoading}/>
+        <WeatherStatsGrid weatherData={realtimeWeather}  isPending={isLoading}/>
+        <ForecastSection forecastData={forecastWeather}  isPending={isLoading}/>
       </main>
     </>
   );

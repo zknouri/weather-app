@@ -12,7 +12,7 @@ import sunset from "@meteocons/svg/fill/sunset.svg";
 import StatCard from "./StatCard.jsx";
 import { getWindIconSlug, getBeaufortWindScale } from "../utils/utils.js";
 
-export default function WeatherStatsGrid({ weatherData }) {
+export default function WeatherStatsGrid({ weatherData, isPending }) {
   const weatherValues = { ...weatherData };
   const windDirection = getWindIconSlug(weatherValues.wind.deg);
   const beaufortWindScale = getBeaufortWindScale(weatherValues.wind.speed);
@@ -56,6 +56,7 @@ export default function WeatherStatsGrid({ weatherData }) {
         icon={sunrise}
         unit=""
         className="size-16"
+        isPending={isPending}
       />
       <StatCard
         title="Sunset"
@@ -63,6 +64,7 @@ export default function WeatherStatsGrid({ weatherData }) {
         icon={sunset}
         unit=""
         className="size-16"
+        isPending={isPending}
       />
       <StatCard
         title="Feels Like"
@@ -70,6 +72,7 @@ export default function WeatherStatsGrid({ weatherData }) {
         icon={thermoCelcius}
         unit=" °C"
         className="size-16"
+        isPending={isPending}
       />
       <StatCard
         title="Humidity"
@@ -77,6 +80,7 @@ export default function WeatherStatsGrid({ weatherData }) {
         icon={humidity}
         unit="%"
         className="size-16"
+        isPending={isPending}
       />
       <StatCard
         title="Wind Speed"
@@ -84,6 +88,7 @@ export default function WeatherStatsGrid({ weatherData }) {
         icon={wind}
         unit=" km/h"
         className="size-16"
+        isPending={isPending}
       />
       <StatCard
         title="Wind Direction"
@@ -91,6 +96,7 @@ export default function WeatherStatsGrid({ weatherData }) {
         icon={windIconSrc}
         unit=" °"
         className="size-16"
+        isPending={isPending}
       />
       <StatCard
         title="Beaufort Wind Scale"
@@ -98,6 +104,7 @@ export default function WeatherStatsGrid({ weatherData }) {
         icon={beaufortWindIconSrc}
         unit=""
         className="size-16"
+        isPending={isPending}
       />
       <StatCard
         title="Pressure"
@@ -105,6 +112,7 @@ export default function WeatherStatsGrid({ weatherData }) {
         icon={pressureIcon}
         unit=" hPa"
         className="size-16"
+        isPending={isPending}
       />
       <StatCard
         title="Visibility"
@@ -112,6 +120,7 @@ export default function WeatherStatsGrid({ weatherData }) {
         icon={mist}
         unit=" km"
         className="size-16"
+        isPending={isPending}
       />
     </div>
   );

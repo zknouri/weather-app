@@ -5,11 +5,15 @@ import WeatherIcon from "./WeatherIcon.jsx";
 import { getBeaufortWindScale, getWindIconSlug } from "../utils/utils.js";
 import ForecastDetailsItem from "./ForecastDetailsItems.jsx";
 
-export default function ForecastCardDetails({ forecastWeather }) {
+export default function ForecastCardDetails({ forecastDetails, forecastDetailsRef }) {
+  if(!forecastDetails){
+    return <div ref={forecastDetailsRef} className="flex justify-center flex-wrap m-1 p-1 w-auto h-auto bg-sky-400 rounded-sm text-stone-50 animate-pulse"><p>Select a forecast to see more details...</p></div>;
+  }
+
   const pressureIcon =
-    forecastWeather[0].main.pressure > 1010 ? "pressure-high" : "pressure-low";
-  const windDirection = getWindIconSlug(forecastWeather[0].wind.deg);
-  const beaufortWindScale = getBeaufortWindScale(forecastWeather[0].wind.speed);
+    forecastDetails.main.pressure > 1010 ? "pressure-high" : "pressure-low";
+  const windDirection = getWindIconSlug(forecastDetails.wind.deg);
+  const beaufortWindScale = getBeaufortWindScale(forecastDetails.wind.speed);
   const [windIconSrc, setWindIconSrc] = useState("");
 
   useEffect(() => {
@@ -19,53 +23,53 @@ export default function ForecastCardDetails({ forecastWeather }) {
   }, [windDirection]);
 
   return (
-    <div className="flex justify-center flex-wrap m-1 p-1 w-auto h-auto bg-sky-400 rounded-sm text-stone-50">
+    <div ref={forecastDetailsRef} className="flex justify-center flex-wrap m-1 p-1 w-auto h-auto bg-sky-400 rounded-sm text-stone-50 animate-fade-in-scale">
       <ForecastDetailsItem
         name={"Condition"}
-        slug={WEATHER_CONDITIONS[forecastWeather[0].weather[0].description]}
-        value={forecastWeather[0].weather[0].description}
+        slug={WEATHER_CONDITIONS[forecastDetails.weather[0].description]}
+        value={forecastDetails.weather[0].description}
         unit=""
       />
       <ForecastDetailsItem
         name={"Feels Like"}
         slug={"thermometer-celsius"}
-        value={Math.round(forecastWeather[0].main.feels_like)}
+        value={Math.round(forecastDetails.main.feels_like)}
         unit="°C"
       />
       <ForecastDetailsItem
         name={"Pressure"}
         slug={pressureIcon}
-        value={forecastWeather[0].main.pressure}
+        value={forecastDetails.main.pressure}
         unit="hPa"
       />
       <ForecastDetailsItem
         name={"Humidity"}
         slug={'humidity'}
-        value={forecastWeather[0].main.humidity}
+        value={forecastDetails.main.humidity}
         unit="%"
       />
       <ForecastDetailsItem
         name={"Dew Point"}
         slug={'thermometer-raindrop'}
-        value={Math.round(forecastWeather[0].main.dew_point)}
+        value={Math.round(forecastDetails.main.dew_point)}
         unit="°C"
       />
       <ForecastDetailsItem
         name={"Visibility"}
         slug={'mist'}
-        value={forecastWeather[0].visibility / 1000}
+        value={forecastDetails.visibility / 1000}
         unit="Km"
       />
       <ForecastDetailsItem
         name={"Wind"}
         slug={'wind'}
-        value={Math.round(forecastWeather[0].wind.speed)}
+        value={Math.round(forecastDetails.wind.speed)}
         unit="Km/h"
       />
       <ForecastDetailsItem
         name={"Gusts"}
         slug={'wind'}
-        value={Math.round(forecastWeather[0].wind.gust)}
+        value={Math.round(forecastDetails.wind.gust)}
         unit="Km/h"
       />
       <ForecastDetailsItem
@@ -77,7 +81,7 @@ export default function ForecastCardDetails({ forecastWeather }) {
       <ForecastDetailsItem
         name={"Wind Direction"}
         slug={windDirection.slug}
-        value={`${windDirection.direction} - ${forecastWeather[0].wind.deg}`}
+        value={`${windDirection.direction} - ${forecastDetails.wind.deg}`}
         unit="°"
       />
     </div>
