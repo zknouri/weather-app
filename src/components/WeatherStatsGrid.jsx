@@ -13,16 +13,51 @@ import StatCard from "./StatCard.jsx";
 import { getWindIconSlug, getBeaufortWindScale } from "../utils/utils.js";
 
 export default function WeatherStatsGrid({ weatherData, isPending }) {
-  const weatherValues = { ...weatherData };
-  const windDirection = getWindIconSlug(weatherValues.wind.deg);
-  const beaufortWindScale = getBeaufortWindScale(weatherValues.wind.speed);
-  const pressureIcon =
-    weatherValues.main.pressure > 1010 ? pressureHigh : pressureLow;
   const [windIconSrc, setWindIconSrc] = useState("");
   const [beaufortWindIconSrc, setBeaufortWindIconSrc] = useState({
     description: "",
     slug: "",
   });
+
+  const weatherValues = { ...weatherData };
+  const windDirection = getWindIconSlug(weatherValues.wind?.deg);
+  const beaufortWindScale = getBeaufortWindScale(weatherValues.wind?.speed);
+
+  useEffect(() => {
+    if(windDirection){
+      import(
+      `../../node_modules/@meteocons/svg/fill/${windDirection?.slug}.svg`
+    ).then((mod) => setWindIconSrc(mod.default));
+    }
+  }, [windDirection]);
+
+
+  useEffect(() => {
+    if(beaufortWindScale){
+      import(
+      `../../node_modules/@meteocons/svg/fill/${beaufortWindScale?.slug}.svg`
+    ).then((mod) => setBeaufortWindIconSrc(mod.default));
+    }
+  }, [beaufortWindScale]);
+
+  if (isPending) {
+    return (
+      <div className="grid grid-cols-4 justify-items-stretch bg-sky-400 rounded-sm p-1 m-1">
+        <StatCard isPending={isPending} />
+        <StatCard isPending={isPending} />
+        <StatCard isPending={isPending} />
+        <StatCard isPending={isPending} />
+        <StatCard isPending={isPending} />
+        <StatCard isPending={isPending} />
+        <StatCard isPending={isPending} />
+        <StatCard isPending={isPending} />
+        <StatCard isPending={isPending} />
+      </div>
+    );
+  }
+
+  const pressureIcon =
+    weatherValues.main.pressure > 1010 ? pressureHigh : pressureLow;
   const sunriseTime = Temporal.Instant.fromEpochMilliseconds(
     weatherData.sys.sunrise * 1000,
   ).toString();
@@ -35,18 +70,6 @@ export default function WeatherStatsGrid({ weatherData, isPending }) {
   const sunsetPlainTime = Temporal.PlainTime.from(
     sunsetTime.slice(10, sunsetTime.length - 1),
   );
-
-  useEffect(() => {
-    import(
-      `../../node_modules/@meteocons/svg/fill/${windDirection.slug}.svg`
-    ).then((mod) => setWindIconSrc(mod.default));
-  }, [windDirection]);
-
-  useEffect(() => {
-    import(
-      `../../node_modules/@meteocons/svg/fill/${beaufortWindScale.slug}.svg`
-    ).then((mod) => setBeaufortWindIconSrc(mod.default));
-  }, [beaufortWindScale]);
 
   return (
     <div className="grid grid-cols-4 justify-items-stretch bg-sky-400 rounded-sm p-1 m-1">

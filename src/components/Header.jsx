@@ -2,7 +2,14 @@ import weatherLogo from "../assets/svg/weather-icon.svg";
 import SearchBar from "./SearchBar.jsx";
 import ReactCountryFlag from "react-country-flag";
 
-export default function Header({ onLocationSearch, onLocationSelect, geolocationResults }) {
+export default function Header({ onLocationSearch, onLocationSelect, geolocationResults, onPending, searchResultsReset }) {
+
+  function locationSelectHandler(geo){
+    onPending(true);
+    onLocationSelect(geo);
+    searchResultsReset(null);
+  }
+
   return (
     <header>
       <div className="flex justify-center items-center animate-fade-in-scale">
@@ -12,16 +19,16 @@ export default function Header({ onLocationSearch, onLocationSelect, geolocation
         </h1>
       </div>
 
-      <nav className="w-full m-1 p-1 bg-sky-400 rounded-sm">
+      <nav className="m-1 p-1 bg-sky-400 rounded-sm">
         <SearchBar onLocationSearch={onLocationSearch} />
         {(geolocationResults && geolocationResults.length === 0) && <p className="text-center p-1 m-1 bg-sky-300 rounded-sm animate-fade-in-scale">No results found!</p>}
         {(geolocationResults && geolocationResults.length > 0) && (
           <ul className="">
             {geolocationResults.map((geo) => (
               <li
-                onClick={() => {onLocationSelect(geo)}}
+                onClick={(()=> locationSelectHandler(geo))}
                 key={crypto.randomUUID()}
-                className="flex gap-2 p-1 m-1 bg-sky-300 rounded-sm animate-fade-in-scale cursor-pointer"
+                className="flex gap-2 p-1 m-1 bg-sky-300 rounded-sm animate-fade-in-scale cursor-pointer border-2 border-transparent hover:border-stone-50 hover:border-2"
               >
                 <div className="flex items-center">
                   <ReactCountryFlag
