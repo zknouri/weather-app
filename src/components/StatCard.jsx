@@ -10,7 +10,7 @@ export default function StatCard({
 }) {
   if (isPending) {
     return (
-      <div className="flex flex-col justify-between items-center text-center p-1 m-1 min-h-40 min-w-20 border-2 rounded-md text-stone-50 animate-pulse">
+      <div className="flex flex-col justify-between items-center text-center p-1 m-1 min-h-40 min-w-20 max-h-50 max-w-30 border-2 rounded-md text-stone-50 animate-pulse">
         <p className="w-20 h-7 rounded-4xl bg-sky-200"></p>
         <p className="size-16 rounded-full bg-sky-200"></p>
 
@@ -20,7 +20,7 @@ export default function StatCard({
   }
 
   return (
-    <div className="flex flex-col justify-between items-center text-center p-1 m-1 min-h-40 min-w-20 border-2 rounded-md text-stone-50 animate-fade-in-scale">
+    <div className="flex flex-col justify-between items-center text-center p-1 m-1 min-h-40 min-w-20 max-h-50 max-w-30 border-2 rounded-md text-stone-50 animate-fade-in-scale">
       <p className="font-semibold text-lg">{title}</p>
       <img
         src={icon === "" ? notAvailble : icon}

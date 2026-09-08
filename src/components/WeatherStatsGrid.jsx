@@ -42,7 +42,7 @@ export default function WeatherStatsGrid({ weatherData, isPending }) {
 
   if (isPending) {
     return (
-      <div className="grid grid-cols-4 justify-items-stretch bg-sky-400 rounded-sm p-1 m-1">
+      <div className="grid grid-cols-4 md:grid-cols-5 justify-items-stretch bg-sky-400 rounded-sm p-1 m-1">
         <StatCard isPending={isPending} />
         <StatCard isPending={isPending} />
         <StatCard isPending={isPending} />
@@ -72,7 +72,7 @@ export default function WeatherStatsGrid({ weatherData, isPending }) {
   );
 
   return (
-    <div className="grid grid-cols-4 justify-items-stretch bg-sky-400 rounded-sm p-1 m-1">
+    <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 xl:grid-cols-9 2xl:grid-cols-10 justify-items-stretch bg-sky-400 rounded-sm p-1 m-1">
       <StatCard
         title="Sunrise"
         value={sunrisePlainTime.toLocaleString("en-US", { timeStyle: "short" })}
