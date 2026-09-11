@@ -24,19 +24,18 @@ export default function WeatherStatsGrid({ weatherData, isPending }) {
   const beaufortWindScale = getBeaufortWindScale(weatherValues.wind?.speed);
 
   useEffect(() => {
-    if(windDirection){
+    if (windDirection) {
       import(
-      `../../node_modules/@meteocons/svg/fill/${windDirection?.slug}.svg`
-    ).then((mod) => setWindIconSrc(mod.default));
+        `../../node_modules/@meteocons/svg/fill/${windDirection?.slug}.svg`
+      ).then((mod) => setWindIconSrc(mod.default));
     }
   }, [windDirection]);
 
-
   useEffect(() => {
-    if(beaufortWindScale){
+    if (beaufortWindScale) {
       import(
-      `../../node_modules/@meteocons/svg/fill/${beaufortWindScale?.slug}.svg`
-    ).then((mod) => setBeaufortWindIconSrc(mod.default));
+        `../../node_modules/@meteocons/svg/fill/${beaufortWindScale?.slug}.svg`
+      ).then((mod) => setBeaufortWindIconSrc(mod.default));
     }
   }, [beaufortWindScale]);
 

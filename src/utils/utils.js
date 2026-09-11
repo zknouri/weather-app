@@ -1,4 +1,4 @@
-import { BEAUFORT_WIND_SCALE } from "../lib/constants";
+import { BEAUFORT_WIND_SCALE } from "../lib/constants.js";
 
 export function getWindIconSlug(windDegree) {
   if (

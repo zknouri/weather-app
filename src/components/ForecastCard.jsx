@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+
 import WeatherIcon from "./WeatherIcon.jsx";
 import { WEATHER_CONDITIONS } from "../lib/constants.js";
 
@@ -10,7 +11,6 @@ export default function ForecastCard({
   cardRef,
   isPending,
 }) {
-  
   const [isSelected, setIsSelected] = useState(false);
 
   const selectedForecastDateTime = selectedForecast?.dt;
@@ -32,12 +32,14 @@ export default function ForecastCard({
   }
 
   if (isPending) {
-    return <div className="flex flex-col gap-1 items-center p-1 m-1 min-h-32 min-w-22 w-22  rounded-md text-stone-50 border-2 font-semibold cursor-pointer animate-pulse">
-          <p className="w-9 h-7 rounded-4xl bg-sky-200"></p>
-          <p className="w-14 h-6 rounded-4xl bg-sky-200"></p>
-          <p className="size-20 rounded-full bg-sky-200"></p>
-          <p className="w-9 h-6 rounded-4xl bg-sky-200"></p>
-        </div>;
+    return (
+      <div className="flex flex-col gap-1 items-center p-1 m-1 min-h-32 min-w-22 w-22  rounded-md text-stone-50 border-2 font-semibold cursor-pointer animate-pulse">
+        <p className="w-9 h-7 rounded-4xl bg-sky-200"></p>
+        <p className="w-14 h-6 rounded-4xl bg-sky-200"></p>
+        <p className="size-20 rounded-full bg-sky-200"></p>
+        <p className="w-9 h-6 rounded-4xl bg-sky-200"></p>
+      </div>
+    );
   }
 
   const dateTimeString = Temporal.Instant.fromEpochMilliseconds(
@@ -46,9 +48,6 @@ export default function ForecastCard({
   const plainDateTime = Temporal.PlainDateTime.from(
     dateTimeString.slice(0, dateTimeString.length - 1),
   );
-
-
-  
 
   return (
     <div

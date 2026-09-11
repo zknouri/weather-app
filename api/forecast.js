@@ -17,8 +17,6 @@ export default async function handler(req, res) {
 
     return res.status(200).json(forecastData);
   } catch (error) {
-    return res
-      .status(500)
-      .json(error || "Failed to fetch forecast data!");
+    return res.status(500).json(error || "Failed to fetch forecast data!");
   }
 }

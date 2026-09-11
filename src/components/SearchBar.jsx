@@ -1,7 +1,7 @@
 export default function SearchBar({ onLocationSearch }) {
   async function handleFormAction(formData) {
     const location = formData.get("location");
-    await onLocationSearch(location)
+    await onLocationSearch(location);
   }
 
   return (

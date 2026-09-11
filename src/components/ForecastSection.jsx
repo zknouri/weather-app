@@ -6,7 +6,6 @@ import previousButton from "../assets/svg/previous-button-green-icon.svg";
 import nextButton from "../assets/svg/next-button-green-icon.svg";
 
 export default function ForecastSection({ forecastData, isPending }) {
-  const [currentSlidePosition, setCurrentSlidePosition] = useState(0);
   const [selectedForecast, setSelectedForecast] = useState();
   const forecastCardDetailsRef = useRef();
   const carouselRef = useRef();

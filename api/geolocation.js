@@ -17,8 +17,6 @@ export default async function handler(req, res) {
 
     return res.status(200).json(geolocationData);
   } catch (error) {
-    return res
-      .status(500)
-      .json(error || "Failed to fetch geolocation data!");
+    return res.status(500).json(error || "Failed to fetch geolocation data!");
   }
 }

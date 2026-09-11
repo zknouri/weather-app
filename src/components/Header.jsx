@@ -1,10 +1,16 @@
-import weatherLogo from "../assets/svg/weather-icon.svg";
-import SearchBar from "./SearchBar.jsx";
 import ReactCountryFlag from "react-country-flag";
 
-export default function Header({ onLocationSearch, onLocationSelect, geolocationResults, onPending, searchResultsReset }) {
+import weatherLogo from "../assets/svg/weather-icon.svg";
+import SearchBar from "./SearchBar.jsx";
 
-  function locationSelectHandler(geo){
+export default function Header({
+  onLocationSearch,
+  onLocationSelect,
+  geolocationResults,
+  onPending,
+  searchResultsReset,
+}) {
+  function locationSelectHandler(geo) {
     onPending(true);
     onLocationSelect(geo);
     searchResultsReset(null);
@@ -21,12 +27,16 @@ export default function Header({ onLocationSearch, onLocationSelect, geolocation
 
       <nav className="m-1 p-1 bg-sky-400 rounded-sm">
         <SearchBar onLocationSearch={onLocationSearch} />
-        {(geolocationResults && geolocationResults.length === 0) && <p className="text-center p-1 m-1 bg-sky-300 rounded-sm animate-fade-in-scale">No results found!</p>}
-        {(geolocationResults && geolocationResults.length > 0) && (
+        {geolocationResults && geolocationResults.length === 0 && (
+          <p className="text-center p-1 m-1 bg-sky-300 rounded-sm animate-fade-in-scale">
+            No results found!
+          </p>
+        )}
+        {geolocationResults && geolocationResults.length > 0 && (
           <ul className="">
             {geolocationResults.map((geo) => (
               <li
-                onClick={(()=> locationSelectHandler(geo))}
+                onClick={() => locationSelectHandler(geo)}
                 key={crypto.randomUUID()}
                 className="flex gap-2 p-1 m-1 bg-sky-300 rounded-sm animate-fade-in-scale cursor-pointer border-2 border-transparent hover:border-stone-50 hover:border-2"
               >

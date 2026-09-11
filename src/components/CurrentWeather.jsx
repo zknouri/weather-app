@@ -1,5 +1,5 @@
-import { WEATHER_CONDITIONS } from "../lib/constants";
-import WeatherIcon from "./WeatherIcon";
+import { WEATHER_CONDITIONS } from "../lib/constants.js";
+import WeatherIcon from "./WeatherIcon.jsx";
 
 export default function CurrentWeather({ weatherData, isPending }) {
   if (isPending) {
@@ -15,7 +15,7 @@ export default function CurrentWeather({ weatherData, isPending }) {
       </div>
     );
   }
-  
+
   const weatherDescription = weatherData.weather[0].description;
   const currentWeatherIconName = WEATHER_CONDITIONS[weatherDescription];
   const dateTimeString = Temporal.Instant.fromEpochMilliseconds(
@@ -24,7 +24,6 @@ export default function CurrentWeather({ weatherData, isPending }) {
   const plainDateTime = Temporal.PlainDateTime.from(
     dateTimeString.slice(0, dateTimeString.length - 1),
   );
-
 
   return (
     <div className="flex flex-col items-center m-1 p-1 w-auto h-auto bg-sky-400/70 rounded-sm text-stone-50 animate-fade-in-scale">
