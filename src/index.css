@@ -8,11 +8,12 @@
     font-weight: 400;
     font-style: normal;
     font-variation-settings: "wdth" 100;
+    background: linear-gradient(225deg, #f7e9f3 0.000%, #e7f3ff 16.667%, #ddfaff 33.333%, #e5fbeb 50.000%, #f5f6dc 66.667%, #fbede0 83.333%, #f0e3f4 100.000%);
   }
 }
 
 @theme {
-  --animate-fade-in-scale: fade-in-scale 0.5s ease-out;
+  --animate-fade-in-scale: fade-in-scale 0.2s ease-out;
   @keyframes fade-in-scale {
     0% {
       opacity: 0;
