@@ -7,6 +7,7 @@ export default function ForecastCard({
   setSelectedForecast,
   forecastData,
   forecastDetailsRef,
+  cardRef,
   isPending,
 }) {
   
@@ -51,8 +52,9 @@ export default function ForecastCard({
 
   return (
     <div
+      ref={cardRef}
       onClick={() => selectedForecastHandler(forecastData)}
-      className={`flex flex-col items-center p-1 m-1 min-h-32 min-w-22 w-22  rounded-md text-stone-50 border-2 font-semibold cursor-pointer hover:border-black ${isSelected ? "text-stone-500" : ""} animate-fade-in-scale`}
+      className={`flex flex-col items-center p-1 m-1 min-h-32 min-w-22 w-22 rounded-md text-stone-50 border-2 font-semibold cursor-pointer hover:border-black ${isSelected ? "text-stone-500" : ""} animate-fade-in-scale`}
     >
       <p className="text-xl">
         {plainDateTime

@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 
 import ForecastCard from "./ForecastCard.jsx";
 import ForecastCardDetails from "./ForecastCardDetails.jsx";
-import { WEATHER_CONDITIONS } from "../lib/constants.js";
 import previousButton from "../assets/svg/previous-button-green-icon.svg";
 import nextButton from "../assets/svg/next-button-green-icon.svg";
 
@@ -10,30 +9,25 @@ export default function ForecastSection({ forecastData, isPending }) {
   const [currentSlidePosition, setCurrentSlidePosition] = useState(0);
   const [selectedForecast, setSelectedForecast] = useState();
   const forecastCardDetailsRef = useRef();
+  const carouselRef = useRef();
+  const cardRef = useRef();
 
   function slideNext() {
-    if (currentSlidePosition >= 720) {
-      setCurrentSlidePosition(0);
-    } else {
-      setCurrentSlidePosition((prevPosition) => prevPosition + 80);
-    }
+    const cardWidth = cardRef.current.offsetWidth;
+
+    carouselRef.current.scrollBy({ left: cardWidth * 5, behavior: "auto" });
   }
 
   function slidePrevious() {
-    if (currentSlidePosition <= 0) {
-      setCurrentSlidePosition(720);
-    } else {
-      setCurrentSlidePosition((prevPosition) => prevPosition - 80);
-    }
+    const cardWidth = cardRef.current.offsetWidth;
+
+    carouselRef.current.scrollBy({ left: -(cardWidth * 5), behavior: "auto" });
   }
 
   if (isPending) {
     return (
       <div className="relative m-1 p-1 w-auto h-auto bg-sky-400/70 rounded-sm text-stone-50 overflow-clip">
-        <div
-          className={`flex transition ease-in-out duration-800`}
-          style={{ transform: "translateX(-" + currentSlidePosition + "%)" }}
-        >
+        <div className={`flex transition ease-in-out duration-800`}>
           <ForecastCard isPending={isPending} />
           <ForecastCard isPending={isPending} />
           <ForecastCard isPending={isPending} />
@@ -46,7 +40,7 @@ export default function ForecastSection({ forecastData, isPending }) {
 
   return (
     <>
-      <div className="relative m-1 p-1 w-auto h-auto bg-sky-400/70 rounded-sm text-stone-50 overflow-clip">
+      <div className="relative m-1 p-1 w-auto h-auto bg-sky-400/70 rounded-sm text-stone-50 overflow-hidden">
         <button
           onClick={slidePrevious}
           className="absolute top-20 min-w-7 cursor-pointer z-10"
@@ -54,8 +48,8 @@ export default function ForecastSection({ forecastData, isPending }) {
           <img src={previousButton} alt="previous button" className="size-7" />
         </button>
         <div
-          className={`flex transition ease-in-out duration-800`}
-          style={{ transform: "translateX(-" + currentSlidePosition + "%)" }}
+          ref={carouselRef}
+          className="flex transition ease-in-out duration-800 overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-none"
         >
           {forecastData.list.map((forecast) => {
             return (
@@ -63,6 +57,7 @@ export default function ForecastSection({ forecastData, isPending }) {
                 selectedForecast={selectedForecast}
                 setSelectedForecast={setSelectedForecast}
                 forecastDetailsRef={forecastCardDetailsRef}
+                cardRef={cardRef}
                 key={forecast.dt}
                 forecastData={forecast}
               />
